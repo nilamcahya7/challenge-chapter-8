@@ -75,9 +75,7 @@ class AuthenticationController extends ApplicationController {
 
       const accessToken = this.createTokenFromUser(user, user.Role);
 
-      res.status(201).json({
-        accessToken,
-      });
+      res.status(201).json({ accessToken });
     } catch (err) {
       next(err);
     }
@@ -109,9 +107,7 @@ class AuthenticationController extends ApplicationController {
 
       const accessToken = this.createTokenFromUser(user, role);
 
-      res.status(201).json({
-        accessToken,
-      });
+      res.status(201).json({ accessToken });
     } catch (err) {
       next(err);
     }
@@ -152,7 +148,9 @@ class AuthenticationController extends ApplicationController {
     return this.jwt.verify(token, JWT_SIGNATURE_KEY);
   }
 
-  encryptPassword = (password) => this.bcrypt.hashSync(password, 10);
+  encryptPassword(password) {
+    return this.bcrypt.hashSync(password, 10);
+  }
 
   verifyPassword(password, encryptedPassword) {
     return this.bcrypt.compareSync(password, encryptedPassword);
