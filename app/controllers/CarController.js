@@ -64,11 +64,10 @@ class CarController extends ApplicationController {
 
   handleRentCar = async (req, res, next) => {
     try {
-      const { rentStartedAt } = req.body;
-      let { rentEndedAt } = req.body;
-      const car = await this.getCarFromRequest(req);
+      let { rentStartedAt, rentEndedAt } = req.body;
+      const car = await this.getCarFromRequest(req)
 
-      if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, 'day');
+      if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, "day");
 
       const activeRent = await this.userCarModel.findOne({
         where: {
@@ -77,14 +76,14 @@ class CarController extends ApplicationController {
             [Op.gte]: rentStartedAt,
           },
           rentEndedAt: {
-            [Op.lte]: rentEndedAt,
-          },
-        },
+            [Op.lte]: rentEndedAt, 
+          }
+        }
       });
 
-      if (activeRent) {
+      if (!!activeRent) {
         const err = new CarAlreadyRentedError(car);
-        res.status(422).json(err);
+        res.status(422).json(err)
         return;
       }
 
@@ -95,11 +94,17 @@ class CarController extends ApplicationController {
         rentEndedAt,
       });
 
-      res.status(201).json(userCar);
-    } catch (err) {
+      await this.carModel.update({
+        isCurrentlyRented: true,
+      }, {where: {id: req.params.id}});
+
+      res.status(201).json(userCar)
+    }
+
+    catch(err) {
       next(err);
     }
-  };
+  }
 
   handleUpdateCar = async (req, res) => {
     try {
