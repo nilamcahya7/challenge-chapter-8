@@ -1,6 +1,6 @@
 class ApplicationError extends Error {
   get details() {
-    return this.details;
+    return {};
   }
 
   toJSON() {

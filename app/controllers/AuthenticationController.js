@@ -65,7 +65,7 @@ class AuthenticationController extends ApplicationController {
         return;
       }
 
-      const isPasswordCorrect = this.verifyPassword(password, user.encryptedPassword);
+      const isPasswordCorrect = await this.verifyPassword(password, user.encryptedPassword);
 
       if (!isPasswordCorrect) {
         const err = new WrongPasswordError();
@@ -73,7 +73,7 @@ class AuthenticationController extends ApplicationController {
         return;
       }
 
-      const accessToken = this.createTokenFromUser(user, user.Role);
+      const accessToken = await this.createTokenFromUser(user, user.Role);
 
       res.status(201).json({ accessToken });
     } catch (err) {
@@ -105,7 +105,7 @@ class AuthenticationController extends ApplicationController {
         roleId: role.id,
       });
 
-      const accessToken = this.createTokenFromUser(user, role);
+      const accessToken = await this.createTokenFromUser(user, role);
 
       res.status(201).json({ accessToken });
     } catch (err) {
