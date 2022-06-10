@@ -12,11 +12,12 @@ describe("POST/v1/auth/register", () => {
     name: "nilamcc",
     email: "nilamcc@gmail.com",
     password: "nilamcc",
-    role: 2,
   };
+
   beforeEach(async () => {
     await User.create(user422);
   });
+  
   afterEach(async () => {
     await User.destroy({
       where: {
