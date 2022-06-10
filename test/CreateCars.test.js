@@ -3,9 +3,9 @@ const app = require("../app");
 
 describe("GET /v1/cars", () => {
   const car = {
-    name: "Rush 2019",
-    price: 600000,
-    size: "SMALL",
+    name: "Lamborgini",
+    price: 2000000,
+    size: "LARGE",
     image: "https://source.unsplash.com/505x505",
   };
 
