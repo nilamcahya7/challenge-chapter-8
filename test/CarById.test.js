@@ -1,11 +1,11 @@
-const request = require('supertest');
-const app = require('../app');
+const request = require("supertest");
+const app = require("../app");
 
-describe('Cars', () => {
-  it('Get spesific car', () => {
+describe("GET/v1/cars/:id", () => {
+  it("success get car data by id with response 200 as status code", () => {
     return request(app)
-      .get('/v1/cars/2')
-      .set('Accept', 'application/json')
+      .get("/v1/cars/2")
+      .set("Content-Type", "application/json")
       .then((res) => {
         expect(res.status).toBe(200);
       });

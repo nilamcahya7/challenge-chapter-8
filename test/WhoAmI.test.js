@@ -13,32 +13,42 @@ describe('User', () => {
         email: "Fikri@binar.co.id",
         password: "123456"
     }
-    // it('Define who logged in (CUSTOMER)', () => {
-    //     return request(app)
-    //         .post("/v1/auth/login")
-    //         .set("Content-Type", "application/json")
-    //         .send({ email: customer.email, password: customer.password })
-    //         .then((res) => {
-    //             request(app)
-    //                 .get("/v1/auth/whoami") // request api whoami
-    //                 .set("authorization", "Bearer " + res.body.accessToken) // set authorization jwt
-    //                 .then((res) => {
-    //                     expect(res.statusCode).toBe(200); // check status respond
-    //                 });
-    //         });
-    // });
-    it('Define who logged in (ADMIN)', () => {
+    it("user succes to access (user is customer) with response with 200 as status code", () => {
         return request(app)
-        .post("/v1/auth/login")
-        .set("Content-Type", "application/json")
-        .send({ email: admin.email, password: admin.password })
-        .then((res) => {
-            request(app)
-            .get("/v1/auth/whoami") // request api whoami
-            .set("authorization", "Bearer " + res.body.accessToken)
-                .then((res) => {
-                    expect(res.statusCode).toBe(401);
-                });
-        });
+            .post("/v1/auth/login")
+            .set("Content-Type", "application/json")
+            .send({ email: customer.email, password: customer.password })
+            .then((res) => {
+                request(app)
+                    .get("/v1/auth/whoami")
+                    .set("authorization", "Bearer " + res.body.accessToken)
+                    .then((res) => {
+                        expect(res.statusCode).toBe(200);
+                    });
+            });
+    });
+    it("user failed to access (user is admin) with response with 401 as status code", () => {
+        return request(app)
+            .post("/v1/auth/login")
+            .set("Content-Type", "application/json")
+            .send({ email: admin.email, password: admin.password })
+            .then((res) => {
+                request(app)
+                    .get("/v1/auth/whoami")
+                    .set("authorization", "Bearer " + res.body.accessToken)
+                    .then((res) => {
+                        expect(res.statusCode).toBe(401);
+                        expect(res.body).toEqual({
+                            error: {
+                                name: 'Error',
+                                message: 'Access forbidden!',
+                                details: {
+                                    role: 'ADMIN',
+                                    reason: 'ADMIN is not allowed to perform this operation.',
+                                },
+                            },
+                        });
+                    });
+            });
     });
 });

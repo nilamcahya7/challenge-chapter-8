@@ -1,15 +1,15 @@
 const request = require("supertest");
 const app = require("../app");
-const { Car } = require('../app/models');
+const { Car } = require("../app/models");
 
 
 describe("DELETE /v1/cars/:id", () => {
     let car;
     beforeEach(async () => {
         car = await Car.create({
-          name: 'Avanza',
+          name: "Avanza",
           price: 500000,
-          size: 'SMALL',
+          size: "SMALL",
           image: "https://source.unsplash.com/505x505",
         });
     

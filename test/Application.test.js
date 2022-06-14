@@ -8,8 +8,8 @@ describe("GET/", () => {
             .then((res) => {
                 expect(res.statusCode).toBe(200);
                 expect(res.body).toEqual({
-                    status: 'OK',
-                    message: 'BCR API is up and running!',
+                    status: "OK",
+                    message: "BCR API is up and running!",
                 });
             });
     });
